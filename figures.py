@@ -16,13 +16,16 @@ def Main():
     times_list = ["08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00"]
   
 
-    start_dropbox = colTop1.selectbox("Start Time: ", times_list)
-    end_dropbox = colTop2.selectbox("End Time: ", times_list, index=5)
+    start_dropbox = colTop1.selectbox("Start Time :  ", times_list)
+    end_dropbox = colTop2.selectbox("End Time : ", times_list, index=6)
     
     start_index = times_list.index(start_dropbox) #drop down chosen start time index generator
     end_index = times_list.index(end_dropbox) #drop down chosen end time index generator
 
     total_items =colTop3.text_input("Total items processed : " ,value=0)
+
+    if total_items == "":
+        total_items = 0
 
     total_items = int(total_items)
 
@@ -44,9 +47,9 @@ def Calculation(times_list, start_index, end_index, people_hours, total_items):
     
 
     
-    colMid1, colMid2, colMid3 = st.columns(3)
+    colMid2, colMid3 = st.columns(2)
 
-    colMid1.write("Time")
+    #colMid1.write("Time")
     colMid2.write("Processed")
     colMid3.write("Hours")
 
@@ -58,13 +61,13 @@ def Calculation(times_list, start_index, end_index, people_hours, total_items):
 
     random_percentage_list=[]
 
-    for i in range(0,duration_length+1):
+    for i in range(0,duration_length):
         current_hours.append(people_hours) 
-        processed_items.append(total_items/(duration_length+1) * int(current_hours[i]))
+        processed_items.append(total_items/(duration_length) * int(current_hours[i]))
 
     hours_sum = sum(current_hours)
 
-    for i in range(0,duration_length+1):
+    for i in range(0,duration_length):
 
             if current_hours[i] <= 0:
                 hours_to_percentage.append(0)
@@ -72,10 +75,14 @@ def Calculation(times_list, start_index, end_index, people_hours, total_items):
                 hours_to_percentage.append(hours_sum/current_hours[i])
 
 
-    for i in range(0, duration_length+1):
-        colMid1.text_input("",times_list[i], disabled=True) 
+    for i in range(0, duration_length):
+        #colMid1.text_input("",times_list[i+start_index], disabled=True) 
         
         current_hours[i]=colMid3.text_input("",people_hours, key=str(times_list[i])) 
+        
+        if current_hours[i] == "":
+            current_hours[i] = 0
+
         current_hours[i] = float(current_hours[i])
         #hours_to_percentage[i]()
 
@@ -90,7 +97,7 @@ def Calculation(times_list, start_index, end_index, people_hours, total_items):
 
     hours_sum = sum(current_hours)
 
-    for i in range(0, duration_length+1):
+    for i in range(0, duration_length):
         if current_hours[i] <= 0:
             hours_to_percentage[i]=(0)
         else:
@@ -105,7 +112,7 @@ def Calculation(times_list, start_index, end_index, people_hours, total_items):
 
     
 
-    for i in range(0, duration_length+1):
+    for i in range(0, duration_length):
         if difference > 0:
             if processed_items[i]>=difference:
                 processed_items[i]= processed_items[i]-difference
@@ -113,7 +120,7 @@ def Calculation(times_list, start_index, end_index, people_hours, total_items):
 
 
 
-        colMid2.text_input("",processed_items[i], key=str(times_list[i]+"t"), disabled=True) 
+        colMid2.text_input(str(times_list[i+start_index])+"-"+str(times_list[i+start_index+1]),processed_items[i], disabled=True) 
 
     st.write("----")
     st.write("processed items sum: " + str(sum(processed_items)))
