@@ -80,7 +80,8 @@ def Calculation(times_list, start_index, end_index, people_hours, total_items):
     for i in range(0, duration_length):
         #colMid1.text_input("",times_list[i+start_index], disabled=True) 
         
-        current_hours[i]=colMid3.text_input(str(times_list[i+start_index])+"-"+str(times_list[i+start_index+1]),people_hours, key=str(times_list[i])) 
+        current_hours[i]=colMid3.text_input(str(times_list[i+start_index])+"-"+str(times_list[i+start_index+1]),people_hours, key=str(times_list[i]))
+        current_hours[i]= re.sub('[^0-9]','', current_hours[i])
         
         if current_hours[i] == "":
             current_hours[i] = 0
