@@ -107,16 +107,24 @@ def Calculation(times_list, start_index, end_index, people_hours, total_items):
 
 
     sum_of_processed = sum(processed_items)
-
     difference = sum_of_processed - total_items
 
     for i in range(0, duration_length):
+        
+
         if difference > 0:
             if processed_items[i]>=difference:
 
                 processed_items[i]= processed_items[i]-difference
+
+                
                 difference = 0
-            
+            else:
+                if processed_items[i] > 0:
+                    processed_items[i] = (processed_items[i] - difference)*-1
+                    sum_of_processed = sum(processed_items)
+                    difference = sum_of_processed - total_items
+
         colMid2.text_input(str(times_list[i+start_index])+"-"+str(times_list[i+start_index+1]),processed_items[i], disabled=True) 
 
     st.write("----")
