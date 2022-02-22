@@ -1,6 +1,7 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
+import re
 
 
 st.set_page_config(page_title='Quick Figures')
@@ -23,6 +24,7 @@ def Main():
     end_index = times_list.index(end_dropbox) #drop down chosen end time index generator
 
     total_items =colTop3.text_input("Total items processed : " ,value=0)
+    total_items = re.sub('[^0-9]','', total_items)
 
     if total_items == "":
         total_items = 0
@@ -110,15 +112,11 @@ def Calculation(times_list, start_index, end_index, people_hours, total_items):
     difference = sum_of_processed - total_items
 
     for i in range(0, duration_length):
-        
-
         if difference > 0:
             if processed_items[i]>=difference:
-
                 processed_items[i]= processed_items[i]-difference
-
-                
                 difference = 0
+
             else:
                 if processed_items[i] > 0:
                     processed_items[i] = (processed_items[i] - difference)*-1
