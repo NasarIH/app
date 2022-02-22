@@ -110,22 +110,19 @@ def Calculation(times_list, start_index, end_index, people_hours, total_items):
 
     difference = sum_of_processed - total_items
 
-    
-
     for i in range(0, duration_length):
         if difference > 0:
             if processed_items[i]>=difference:
+
                 processed_items[i]= processed_items[i]-difference
                 difference = 0
-
-
-
+            
         colMid2.text_input(str(times_list[i+start_index])+"-"+str(times_list[i+start_index+1]),processed_items[i], disabled=True) 
 
     st.write("----")
     st.write("processed items sum: " + str(sum(processed_items)))
-
-
+    st.write("hourly sum: " + str(hours_sum))
+    
 
 if __name__ == '__main__':
 	#pass in the username of the account you want to download
