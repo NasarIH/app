@@ -81,7 +81,7 @@ def Calculation(times_list, start_index, end_index, people_hours, total_items):
         #colMid1.text_input("",times_list[i+start_index], disabled=True) 
         
         current_hours[i]=colMid3.text_input(str(times_list[i+start_index])+"-"+str(times_list[i+start_index+1]),people_hours, key=str(times_list[i]))
-        #current_hours[i]= re.sub('[^0-9]','', current_hours[i])
+        current_hours[i]= re.sub('[^0-9]','', current_hours[i])
         
         if current_hours[i] == "":
             current_hours[i] = 0
@@ -123,8 +123,12 @@ def Calculation(times_list, start_index, end_index, people_hours, total_items):
                     processed_items[i] = (processed_items[i] - difference)*-1
                     sum_of_processed = sum(processed_items)
                     difference = sum_of_processed - total_items
-
-        colMid2.text_input(str(times_list[i+start_index])+"-"+str(times_list[i+start_index+1]),processed_items[i], disabled=True) 
+        if processed_items[i] > 0:
+            acf =  "  (ACF "+str(int(processed_items[i]/current_hours[i]))+")"
+        else:
+            acf = ""          
+        
+        colMid2.text_input(str(times_list[i+start_index])+"-"+str(times_list[i+start_index+1] + acf),processed_items[i], disabled=True) 
 
     st.write("----")
     st.write("processed items sum: " + str(sum(processed_items)))
